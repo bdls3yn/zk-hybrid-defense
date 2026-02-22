@@ -1,0 +1,8 @@
+{"ts": "2026-02-21T12:23:52.199696", "actor": "0x00b094FDA11687Eef53aCEF6a94F0ab0fE526c16", "reason": "DDoS", "score": 35, "delta": 35}
+{"ts": "2026-02-21T12:25:16.545467", "actor": "0xF6395d92ce6f34Dda5af79ae5d91b72778dFf282", "reason": "Replay", "score": 50, "delta": 50}
+{"ts": "2026-02-21T12:25:16.547250", "actor": "0xF6395d92ce6f34Dda5af79ae5d91b72778dFf282", "reason": "Replay", "score": 100, "delta": 50}
+{"ts": "2026-02-21T12:38:28.742124", "actor": "0x00b094FDA11687Eef53aCEF6a94F0ab0fE526c16", "reason": "DDoS", "score": 35, "delta": 35}
+{"ts": "2026-02-21T12:40:19.407738", "actor": "0x00b094FDA11687Eef53aCEF6a94F0ab0fE526c16", "reason": "Sybil", "score": 65, "delta": 30}
+{"ts": "2026-02-21T12:40:27.984373", "actor": "0xa05E7879FDd63201c6a36041F7CC2dD22a7eeBB0", "reason": "Replay", "score": 50, "delta": 50}
+{"ts": "2026-02-21T12:41:26.642196", "actor": "0xa05E7879FDd63201c6a36041F7CC2dD22a7eeBB0", "reason": "Replay", "score": 100, "delta": 50}
+{"ts": "2026-02-21T12:41:26.644261", "actor": "0xa05E7879FDd63201c6a36041F7CC2dD22a7eeBB0", "reason": "Replay", "score": 100, "delta": 50}
