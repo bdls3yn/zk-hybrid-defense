@@ -14,3 +14,13 @@ docs/
 .env
 .env
 .env
+node_modules/
+cache/
+out/
+.venv/
+python/ciphertext.bin
+circuits/range_proof/*.ptau
+circuits/range_proof/*.zkey
+circuits/range_proof/*.r1cs
+circuits/range_proof/*.sym
+circuits/range_proof/witness.wtns
