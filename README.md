@@ -1,7 +1,7 @@
 # zk-hybrid-defense
 
-> **Doctoral Research Project** — Azerbaijan Technical University, 2022–2026  
-> Specialty: 3339.01 — Information Security Systems  
+> **Doctoral Research Project** — Azerbaijan Technical University, 2022–2026
+> Specialty: 3339.01 — Information Security Systems
 > Author: Abdulhuseyn Agayev · ORCID: [0000-0003-4930-0672](https://orcid.org/0000-0003-4930-0672)
 
 ## Overview
@@ -58,13 +58,13 @@ Proves that a private transaction amount satisfies a range constraint without re
 | Event emission (ProofVerified) | 25,966 | 6.3% |
 
 ### Workflow
-amount=500, maxAmount=1000 → Circom LessEqThan32 circuit
-Groth16 proof generated (0.317s mean) → proof.json
-TenSEAL CKKS encrypt(amount) → 334 KB ciphertext (local only)
-keccak256(ciphertext) → 32-byte commitment
-HybridGuardian.submitProof(pA, pB, pC, pubSignals, cipherHash)
-ProofVerified event emitted on Sepolia
 
+    1. amount=500, maxAmount=1000  →  Circom LessEqThan32 circuit
+    2. Groth16 proof generated (0.317s mean)  →  proof.json
+    3. TenSEAL CKKS encrypt(amount)  →  334 KB ciphertext (local only)
+    4. keccak256(ciphertext)  →  32-byte commitment
+    5. HybridGuardian.submitProof(pA, pB, pC, pubSignals, cipherHash)
+    6. ProofVerified event emitted on Sepolia
 
 Sepolia TX: `0x1d2f0786c3f6e60403fcd2d8402c7d5570e0e26c981d07d03092c0f62444074b`
 
@@ -91,67 +91,65 @@ Risk levels: **Normal** (0–39) / **Medium** (40–69) / **High** (70–89) / *
 | v3 (final) | `0x733a81BC...` | 1,387,453 | −21.9% |
 
 ### Real Monitoring Log (2026-02-21)
-12:23:52 0x00b094... DDoS +35 → 35 [Medium]
-12:25:16 0xF6395d... Replay +50 → 50 [Medium]
-12:25:16 0xF6395d... Replay +50 → 100 [Critical]
-12:38:28 0x00b094... DDoS +35 → 35 [Medium]
-12:40:19 0x00b094... Sybil +30 → 65 [High]
-12:40:27 0xa05E78... Replay +50 → 50 [Medium]
-12:41:26 0xa05E78... Replay +50 → 100 [Critical]
-12:41:26 0xa05E78... Replay +50 → 100 [Saturated]
 
+    12:23:52  0x00b094...  DDoS    +35 →  35  [Medium]
+    12:25:16  0xF6395d...  Replay  +50 →  50  [Medium]
+    12:25:16  0xF6395d...  Replay  +50 → 100  [Critical]
+    12:38:28  0x00b094...  DDoS    +35 →  35  [Medium]
+    12:40:19  0x00b094...  Sybil   +30 →  65  [High]
+    12:40:27  0xa05E78...  Replay  +50 →  50  [Medium]
+    12:41:26  0xa05E78...  Replay  +50 → 100  [Critical]
+    12:41:26  0xa05E78...  Replay  +50 → 100  [Saturated]
 
 ---
 
 ## Project Structure
-zk-hybrid-defense/
-├── src/
-│ ├── HybridGuardian.sol # ZK-HHCF main contract
-│ ├── ThreatDetector.sol # Threat detection contract
-│ ├── RangeProofVerifier.sol # Groth16 verifier
-│ └── AttackSimulator.sol # Controlled attack testing
-├── circuits/
-│ └── range_proof/
-│ ├── range_proof.circom
-│ ├── input.json
-│ ├── proof.json
-│ └── public.json
-├── python/
-│ ├── adaptive_monitor.py # Real-time event monitoring
-│ ├── hybrid_submit.py # ZK + CKKS submit pipeline
-│ └── diagnose.py # Verifier diagnostics
-├── script/
-│ ├── Deploy.s.sol
-│ ├── DeployThreatDetector.s.sol
-│ └── DeploySimulator.s.sol
-├── logs/
-│ └── threat_monitor.jsonl
-└── foundry.toml
 
+    zk-hybrid-defense/
+    ├── src/
+    │   ├── HybridGuardian.sol       # ZK-HHCF main contract
+    │   ├── ThreatDetector.sol       # Threat detection contract
+    │   ├── RangeProofVerifier.sol   # Groth16 verifier
+    │   └── AttackSimulator.sol      # Controlled attack testing
+    ├── circuits/
+    │   └── range_proof/
+    │       ├── range_proof.circom
+    │       ├── input.json
+    │       ├── proof.json
+    │       └── public.json
+    ├── python/
+    │   ├── adaptive_monitor.py      # Real-time event monitoring
+    │   ├── hybrid_submit.py         # ZK + CKKS submit pipeline
+    │   └── diagnose.py              # Verifier diagnostics
+    ├── script/
+    │   ├── Deploy.s.sol
+    │   ├── DeployThreatDetector.s.sol
+    │   └── DeploySimulator.s.sol
+    ├── logs/
+    │   └── threat_monitor.jsonl
+    └── foundry.toml
 
 ---
 
 ## Quick Start
 
-```bash
-# Install Foundry
-curl -L https://foundry.paradigm.xyz | bash && foundryup
+    # Install Foundry
+    curl -L https://foundry.paradigm.xyz | bash && foundryup
 
-# Install Python deps
-pip install web3 tenseal==0.3.14
+    # Install Python deps
+    pip install web3 tenseal==0.3.14
 
-# Build
-forge build
+    # Build
+    forge build
 
-# Deploy ThreatDetector
-forge script script/DeployThreatDetector.s.sol --rpc-url $RPC_URL --broadcast
+    # Deploy ThreatDetector
+    forge script script/DeployThreatDetector.s.sol --rpc-url $RPC_URL --broadcast
 
-# Run monitor
-python python/adaptive_monitor.py
+    # Run monitor
+    python python/adaptive_monitor.py
 
-# Submit ZK proof
-python python/hybrid_submit.py
-```
+    # Submit ZK proof
+    python python/hybrid_submit.py
 
 ---
 
@@ -178,9 +176,9 @@ python python/hybrid_submit.py
 
 ## Research Context
 
-**Dissertation:** Development of Mechanisms Against Cyber Threats During Information Exchange in Blockchain Networks  
-**University:** Azerbaijan Technical University  
-**Specialty:** 3339.01  
+**Dissertation:** Development of Mechanisms Against Cyber Threats During Information Exchange in Blockchain Networks
+**University:** Azerbaijan Technical University
+**Specialty:** 3339.01
 **Period:** 2022–2026
 
 ### Novelty Claims
@@ -200,6 +198,6 @@ MIT
 
 ## Contact
 
-Abdulhuseyn Agayev · Azerbaijan Technical University  
-abdulhuseyn.agayev@student.aztu.edu.az  
+Abdulhuseyn Agayev · Azerbaijan Technical University
+abdulhuseyn.agayev@student.aztu.edu.az
 ORCID: [0000-0003-4930-0672](https://orcid.org/0000-0003-4930-0672)
