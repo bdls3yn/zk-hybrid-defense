@@ -1,0 +1,28 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+import {Script, console2} from "forge-std/Script.sol";
+import {ZKThreatGateway} from "../src/ZKThreatGateway.sol";
+
+/// Sends two real transactions to a deployed ZKThreatGateway on Sepolia:
+///   1) a valid confidential transfer (expected: Accepted)
+///   2) the same proof again (expected: Replay, score +50)
+/// The proof is bound to actor 0x00b094FDA11687Eef53aCEF6a94F0ab0fE526c16,
+/// chainId 11155111 and keccak256(python/ciphertext.bin).
+/// Usage: GATEWAY=0x... forge script script/SubmitDemo.s.sol --rpc-url $ALCHEMY_SEPOLIA_URL --private-key $PRIVATE_KEY --broadcast
+contract SubmitDemo is Script {
+    function run() external {
+        ZKThreatGateway gw = ZKThreatGateway(vm.envAddress("GATEWAY"));
+        uint256[2] memory a = [uint256(250984398611252268353262921203469181337161145646240796186313050222108388359), 15719524238267607106469104385369010051846914582304519308190580575435230874190];
+        uint256[2][2] memory b = [[uint256(16007765365380979028472978769447873251695022635507804606951229410893266984725), 13093326165017609165514718896835046739698113770143230259694354219817785228218], [uint256(12160709421038992285399517813618381660460718425082807382534378184489278261246), 18606096651943767897555942494458196813920295531126828346233365446793777218383]];
+        uint256[2] memory c = [uint256(15847717214947461553765125817843413213713179477255335125506031354432277692786), 8903870575735879258668666439650489125271660896183917484073374783870944169280];
+        uint256[6] memory pub = [uint256(246253748804793760663524570251802170199958899711302460428721970420267248010), 14455980863438949430312203591166288128295245614726280172750434580523777755667, 1000, 11804578264192464940355759291463619219203183838655512957086740317698068681756, 3937910078820816096598558564010039743203142678, 11155111];
+        bytes32 ct = 0x7ae1c474cc269eeed95350677eb24ab70ed6816d4dd2c51a441fb0749609941e;
+        vm.startBroadcast();
+        ZKThreatGateway.Status s1 = gw.submit(a, b, c, pub, ct);
+        ZKThreatGateway.Status s2 = gw.submit(a, b, c, pub, ct);
+        vm.stopBroadcast();
+        console2.log("tx1 status (0=Accepted):", uint8(s1));
+        console2.log("tx2 status (7=Replay):  ", uint8(s2));
+    }
+}

@@ -1,0 +1,159 @@
+{
+ "generated": "2026-10-07",
+ "environment": "Foundry forge 1.5.1, solc 0.8.24 (optimizer 200 runs), anvil local chain 31337; proofs: circom 2.1.9 + snarkjs 0.7.4 Groth16 (bn128)",
+ "circuit_guarded_transfer": {
+  "private_inputs": 2,
+  "public_inputs": 4,
+  "public_outputs": 2,
+  "wires": 582,
+  "phase1": "pot12_final.ptau (existing ZK-HHCF v1 ceremony)",
+  "phase2": "1 contribution + beacon (local, non-public \u2014 not production grade)"
+ },
+ "proof_generation_ms": {
+  "n": 172,
+  "mean": 249.9,
+  "std": 26.5,
+  "p50": 246.4,
+  "p95": 285.3,
+  "p99": 325.2,
+  "note": "snarkjs 0.7.4 browser bundle in Node 22, single thread, cloud x86 VM (not Apple M2)"
+ },
+ "gas_full_receipt_anvil": {
+  "v1_HybridGuardian.submitVerifiedTransaction": 362736,
+  "v2_ZKThreatGateway.submit_accepted": 393944,
+  "v2_ZKThreatGateway.submit_replay_rejected": 71521,
+  "deploy_v1_Groth16Verifier": 364102,
+  "deploy_v1_HybridGuardian": 509565,
+  "deploy_v2_GuardedTransferVerifier": 448389,
+  "deploy_v2_ZKThreatGateway": 1216106,
+  "note": "same compiler settings for v1 and v2; the Sepolia figure 410,966 for v1 was measured with a different build"
+ },
+ "gas_execution_only_forge": {
+  "v1_accepted": 343404,
+  "v2_accepted": 376641,
+  "v2_rejected_at_threat_gate": 6336
+ },
+ "evaluation_onchain_real_proofs": {
+  "benign": {
+   "accepted": 40,
+   "total": 40
+  },
+  "attacks": {
+   "replay": [
+    15,
+    15
+   ],
+   "front_running": [
+    10,
+    10
+   ],
+   "ciphertext_swap": [
+    10,
+    10
+   ],
+   "cross_chain": [
+    5,
+    5
+   ],
+   "policy_inflation": [
+    5,
+    5
+   ],
+   "forged_proof": [
+    10,
+    10
+   ],
+   "ddos": [
+    5,
+    5
+   ],
+   "sybil_burst": [
+    5,
+    5
+   ]
+  },
+  "TP": 65,
+  "FN": 0,
+  "FP": 0,
+  "TN": 40,
+  "evasion_not_detected_by_design": {
+   "slow_rate_ddos_10_per_min": "12/12 accepted, score 0",
+   "distributed_sybil_30_addresses_x1": "30/30 accepted"
+  }
+ },
+ "v1_weaknesses_demonstrated_with_real_proofs": [
+  "W1 prover-chosen maxAmount accepted (amount=1e9, max=2^32-1)",
+  "W2 one proof accepted 5 times with different ciphertext hashes and senders",
+  "W3 any caller can trigger DDoS block of a victim (third-party griefing)",
+  "W4 assessThreat credits replay score to the ThreatDetector address",
+  "W5 caller-supplied account age evades Sybil rule"
+ ],
+ "tests": {
+  "total": 28,
+  "passed": 28,
+  "fuzz_runs": 1000
+ },
+ "audit_v2_1": {
+  "env": {
+   "tenseal": "0.3.16",
+   "python": "3.11.14"
+  },
+  "honest": {
+   "proof_amount": 500,
+   "ct_amount": 500,
+   "ciphertext_bytes": 334272,
+   "max_slot_error": 3.634e-09,
+   "commitment_ok": true,
+   "consistent": true,
+   "audit_ms": 978.21
+  },
+  "attack": {
+   "proof_amount": 1,
+   "ct_amount": 900,
+   "ciphertext_bytes": 334321,
+   "max_slot_error": 2.816e-09,
+   "commitment_ok": false,
+   "policy_ok": true,
+   "consistent": false,
+   "audit_ms": 1029.87
+  },
+  "recordAudit_gas": {
+   "consistent": 31769,
+   "inconsistent": 43365
+  },
+  "he_aggregate": {
+   "trials": 1000,
+   "k": 10,
+   "params": "CKKS N=8192, q=[60,40,40,60], scale=2^40",
+   "abs_error_sum": {
+    "mean": 6.740010576322675e-10,
+    "std": 5.246037389873255e-10,
+    "max": 3.14321368932724e-09
+   },
+   "abs_error_fee_mul": {
+    "mean": 0.0006698955352353551,
+    "std": 0.00012463228235205746,
+    "max": 0.0010068153533211444
+   },
+   "limit_decisions_wrong": 0,
+   "ms_add_k_ciphertexts": {
+    "mean": 0.3214675426715985,
+    "std": 0.1032110050594084,
+    "max": 3.009209001902491
+   },
+   "ms_plain_mul": {
+    "mean": 0.39605810650391504,
+    "std": 0.08470039673269707,
+    "max": 2.547416021116078
+   },
+   "ms_decrypt_two": {
+    "mean": 3.6344589708314743,
+    "std": 0.7048978974198123,
+    "max": 18.488834000891075
+   },
+   "peak_rss_mb": 405.015625,
+   "python": "3.11.14",
+   "tenseal": "0.3.16"
+  }
+ }
+}

@@ -1,0 +1,9 @@
+# never publish the auditor's CKKS secret key or generated run data
+audit/keys/
+audit/honest/
+audit/attack/
+audit/bench_tmp/
+audit/__pycache__/
+cache/
+out/
+broadcast/*/31337/
