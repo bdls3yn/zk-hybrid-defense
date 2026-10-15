@@ -16,6 +16,8 @@ def decode(vec, tol=0.01):
         if abs(x - r) > tol or r < 0:
             raise ValueError(f"slot not an integer within tolerance: {x}")
         ints.append(int(r))
+    if ints[0] >= 1 << 32 or any(v >= 1 << LIMB_BITS for v in ints[1:]):
+        raise ValueError("slot value outside the encoding range")
     amount = ints[0]
     secret = sum(v << (LIMB_BITS*i) for i, v in enumerate(ints[1:]))
     return amount, secret
